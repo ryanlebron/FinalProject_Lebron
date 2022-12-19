@@ -43,7 +43,7 @@ def energy (pos , vel, mass, G):
 			
 
 	PE = -np.sqrt(PE[i,0]**2 + PE[i,1]**2 + PE[i,2]**2)
-	print(PE)
+
 	return KE,PE
 
 #main simulation function
