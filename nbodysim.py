@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+np.random.seed(1)
 
 #function to obtain acceleration of particles
 def acceleration(position, mass, G, softening):
@@ -37,19 +37,20 @@ def energy (pos , vel, mass, G):
 			dz = pos[j,2] - pos[i,2]
 			inv_r = np.sqrt(dx**2 + dy**2 + dz**2)
 			if inv_r > 0:
-				PE[i,0] += (G * mass[j] * mass[i]) * (dx / inv_r)
-				PE[i,1] += (G * mass[j] * mass[i]) * (dy / inv_r)
-				PE[i,2] += (G * mass[j] * mass[i]) * (dz / inv_r)
+				PE[i,0] += (G * mass[j] * mass[i]) / (inv_r)
+				PE[i,1] += (G * mass[j] * mass[i]) / (inv_r)
+				PE[i,2] += (G * mass[j] * mass[i]) / (inv_r)
+			
 
-	PE = np.sqrt(PE[i,0]**2 + PE[i,1]**2 + PE[i,2]**2)	
-	
+	PE = -np.sqrt(PE[i,0]**2 + PE[i,1]**2 + PE[i,2]**2)
+	print(PE)
 	return KE,PE
 
 #main simulation function
 def nbodysim():
 	
 	# initial parameters
-	N         = 50   # total number of particles
+	N         = 20  # total number of particles
 	t         = 0      # current time of the simulation
 	tEnd      = 10.0   # time at which simulation ends
 	dt        = 0.01   # timestep
@@ -126,8 +127,8 @@ def nbodysim():
 			plt.scatter(t_all,KE_save,color='orange',s=1,label='KE')
 			plt.scatter(t_all,PE_save,color='blue',s=1,label='PE')
 			plt.scatter(t_all,KE_save+PE_save,color='black',s=1,label='Etot')
-			ax2.set(xlim=(0, tEnd), ylim=(-300, 300))
-			ax2.set_aspect(0.007)
+			ax2.set(xlim=(0, tEnd), ylim=(-100, 100))
+			
 			
 			plt.pause(0.001)
 	    
